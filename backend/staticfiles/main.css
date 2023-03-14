@@ -43,7 +43,7 @@ form {
 }
 input[type="text"] {
   padding: 12px 16px;
-  border: 1px solid #f9b000;
+  border: 1px solid #10a37f;
   border-radius: 4px;
   margin-bottom: 24px;
 }
@@ -51,10 +51,10 @@ input[type="text"] {
   color: #8e8ea0;
   opacity: 1;
 }
-button[type="submit"] {
+input[type="submit"] {
   padding: 12px 0;
   color: #fff;
-  background-color: #f9b000;
+  background-color: #10a37f;
   border: none;
   border-radius: 4px;
   text-align: center;

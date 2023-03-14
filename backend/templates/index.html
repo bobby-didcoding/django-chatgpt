@@ -1,22 +1,28 @@
 {% load static %}
 <!DOCTYPE html>
 <head>
-  <title>OpenAI Quickstart</title>
+  <title>Django ChatGPT demo</title>
   <link
     rel="shortcut icon"
-    href="{{ url_for('static', filename='dog.png') }}"
+    href="{% static 'dog.png' %}"
   />
-  <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}" />
+  <link rel="stylesheet" href="{% static 'main.css' %}" />
 </head>
 
 <body>
-  <img src="{{ url_for('static', filename='dog.png') }}" class="icon" />
+  <img src="{% static 'dog.png' %}" class="icon" />
   <h3>Name my pet</h3>
-  <form action="/" method="post">
-    <input type="text" name="animal" placeholder="Enter an animal" required />
-    <input type="submit" value="Generate names" />
+  <form action="{% url 'core:home' %}" method="post" id="basicform">
+    {% csrf_token %}
+    {{form.breed}}
+    <button type="submit" >Generate names</button>
   </form>
-  {% if result %}
-  <div class="result">{{ result }}</div>
-  {% endif %}
+
+  <div>
+    <ul class="result">
+    </ul>
+  </div>
+
+  <script src="{% static 'jquery-3.5.1.min.js' %}"></script>
+  <script src="{% static 'custom.js' %}"></script>
 </body>
