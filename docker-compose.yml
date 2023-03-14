@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres
+    restart: unless-stopped
+    volumes:
+      - demo_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_PORT= ${DB_PORT}
+    ports:
+      - "5432:5432"
+    container_name: demo_db
+
+  app:
+    build:
+      context: ./backend
+      dockerfile: docker/docker_files/Dockerfile
+    platform: linux/amd64
+    restart: unless-stopped
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./backend:/code
+    ports:
+      - 8000:8000
+    env_file:
+      - ./.env
+    depends_on:
+      - db
+    container_name: demo_app
+  
+ 
+volumes:
+  demo_data:
