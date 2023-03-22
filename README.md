@@ -1,5 +1,6 @@
-# Django ChatGPT
-This is a simple dockerised Django app that makes use of ChatGPT's API to suggest animal names
+# <span style="color:#f9b000">ChatGPT Django Tutorial</span>
+
+![ChatGPT Django Tutorial](https://static.didcoding.com/media/tutorials/chat_gpt_django_tutorial.jpg "ChatGPT Django Tutorial")
 ***
 ***
 

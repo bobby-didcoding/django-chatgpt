@@ -36,9 +36,6 @@ class HomeView(generic.FormView):
     form_class = AnimalForm
     success_url = "/"
 
-    def generate_prompt(self, breed):
-        return 'Suggest three names for an animal that is a superhero.'
-
     @method_decorator(ajax_required)
     def post(self, request,*args, **kwargs):
         data = {'result': 'Error', 'message': "Something went wrong, please try again", "redirect": False, "data":None}
@@ -49,7 +46,7 @@ class HomeView(generic.FormView):
 
             response = openai.Completion.create(
                 model="text-davinci-003",
-                prompt=self.generate_prompt(breed),
+                prompt=breed,
                 temperature=0.6,
             )
             data.update({
@@ -62,26 +59,3 @@ class HomeView(generic.FormView):
         else:
             data["message"] = FormErrors(form)
             return JsonResponse(data, status=400)
-
-# import os
-
-# import openai
-# from flask import Flask, redirect, render_template, request, url_for
-
-# app = Flask(__name__)
-# openai.api_key = os.getenv("OPENAI_API_KEY")
-
-
-# @app.route("/", methods=("GET", "POST"))
-# def index():
-#     if request.method == "POST":
-#         animal = request.form["animal"]
-#         response = openai.Completion.create(
-#             model="text-davinci-003",
-#             prompt=generate_prompt(animal),
-#             temperature=0.6,
-#         )
-#         return redirect(url_for("index", result=response.choices[0].text))
-
-#     result = request.args.get("result")
-#     return render_template("index.html", result=result)
