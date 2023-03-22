@@ -46,10 +46,39 @@ var DemoFunctions = function(){
         });
     };
 
+    var basicImageForm = function (){
+        var form = $('#basicimageform')
+        var submitButton = getSubmitButton(form)
+        form.submit(function(event){
+            event.preventDefault();
+            CustomFormSubmitPost(submitButton);
+            var formData = form.serialize()
+			$.ajax({
+				url: form.attr("action"),
+				method: form.attr("method"),
+				data: formData,
+				success: function(json){
+					CustomFormSubmitResponse(submitButton);
+					var image = json["data"]
+                    $('.images').remove();
+                    $('.result').append(
+                        "<img src="+image+">"
+                        );
+
+				},
+				error: function(json){
+					CustomFormSubmitResponse(submitButton);
+					console.log(json.status + ": " + json.responseText);
+				}
+			})
+        });
+    };
+
 	/* Function ============ */
 	return {
 		init:function(){
 			basicForm();
+            basicImageForm();
 		},
 	}
 	
