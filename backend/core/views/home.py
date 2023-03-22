@@ -36,6 +36,9 @@ class HomeView(generic.FormView):
     form_class = AnimalForm
     success_url = "/"
 
+    def generate_prompt(self, breed):
+        return f'Suggest three {breed} animal names '
+
     @method_decorator(ajax_required)
     def post(self, request,*args, **kwargs):
         data = {'result': 'Error', 'message': "Something went wrong, please try again", "redirect": False, "data":None}
