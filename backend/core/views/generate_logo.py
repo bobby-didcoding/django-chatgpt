@@ -9,7 +9,7 @@ from django.conf import settings
 # --------------------------------------------------------------
 # App imports
 # --------------------------------------------------------------
-from core.forms import AnimalForm
+from core.forms import InputForm
 
 # --------------------------------------------------------------
 # Project imports
@@ -24,39 +24,34 @@ import openai
 
 openai.api_key = settings.OPENAI_API_KEY
 
-class GenerateImageView(generic.FormView):
+class GenerateLogoView(generic.FormView):
     """
-    FormView used for our generate image page.
+    FormView used for our generate logo page.
 
     **Template:**
 
-    :template:`generate_image.html`
+    :template:`generate_logo.html`
     """
-    template_name = "generate_image.html"
-    form_class = AnimalForm
+    template_name = "generate_logo.html"
+    form_class = InputForm
     success_url = "/"
-
-    def generate_prompt(self, breed):
-        return 'Suggest three names for an animal that is a superhero.'
 
     @method_decorator(ajax_required)
     def post(self, request,*args, **kwargs):
         data = {'result': 'Error', 'message': "Something went wrong, please try again", "redirect": False, "data":None}
-        form = AnimalForm(request.POST)
+        form = InputForm(request.POST)
         if form.is_valid():
 
-            breed = form.cleaned_data.get("breed")
+            input = form.cleaned_data.get("input")
 
             response = openai.Image.create(
-                prompt=breed,
+                prompt=input,
                 n=1,
                 size="1024x1024"
             )
-            print(response)
-            print(response['data'][0]['url'])
             data.update({
                 'result': "Success",
-                'message': "ChatGPT has created this image",
+                'message': "ChatGPT has created this logo",
                 'data': response['data'][0]['url']
             })
             return JsonResponse(data)

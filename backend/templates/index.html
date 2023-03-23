@@ -14,7 +14,7 @@
   <h3>Name my pet</h3>
   <form action="{% url 'core:home' %}" method="post" id="basicform">
     {% csrf_token %}
-    {{form.breed}}
+    {{form.input}}
     <button type="submit" >Generate names</button>
   </form>
 
@@ -24,5 +24,5 @@
   </div>
 
   <script src="{% static 'jquery-3.5.1.min.js' %}"></script>
-  <script src="{% static 'custom.js' %}"></script>
+  <script src="{% static 'main.js' %}"></script>
 </body>

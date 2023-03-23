@@ -2,8 +2,8 @@
 # App imports
 # --------------------------------------------------------------
 
-from core.forms.animal import AnimalForm
+from core.forms.input import InputForm
 
 __all__ = [
-    AnimalForm
+    InputForm
 ]

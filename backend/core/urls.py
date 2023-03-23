@@ -5,5 +5,5 @@ app_name = "core"
 
 urlpatterns = [
 	path("", views.HomeView.as_view(), name="home"),
-    path("generate-image/", views.GenerateImageView.as_view(), name="generate-image"),
+    path("generate-logo/", views.GenerateLogoView.as_view(), name="generate-logo"),
 ]

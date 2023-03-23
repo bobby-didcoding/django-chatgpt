@@ -21,30 +21,53 @@ var DemoFunctions = function(){
 	
     var basicForm = function (){
         var form = $('#basicform')
-        var submit_button = getSubmitButton(form)
+        var submitButton = getSubmitButton(form)
         form.submit(function(event){
             event.preventDefault();
-            CustomFormSubmitPost(submit_button);
-            var formdata = new FormData(form[0]); 
-            var submit_button = getSubmitButton(form)
+            CustomFormSubmitPost(submitButton);
+            var formData = form.serialize()
 			$.ajax({
 				url: form.attr("action"),
 				method: form.attr("method"),
-				data: data,
+				data: formData,
 				success: function(json){
-					CustomFormSubmitResponse(submit_button);
-					var result = "Success"
-					var message = json["message"]
-					$('.modal').modal('hide');
+					CustomFormSubmitResponse(submitButton);
+					var names = json["data"]
+                    $('.names').remove();
+                    for (var i = 0; i < names.length; i++) {
+                        $('.result').append("<li class='names'>"+names[i]+"</li>");
+                    }
+				},
+				error: function(json){
+					CustomFormSubmitResponse(submitButton);
+					console.log(json.status + ": " + json.responseText);
+				}
+			})
+        });
+    };
 
-					ShowAlert(result, json["message"], result.toLowerCase(), json["redirect"]);
+    var basicImageForm = function (){
+        var form = $('#basicimageform')
+        var submitButton = getSubmitButton(form)
+        form.submit(function(event){
+            event.preventDefault();
+            CustomFormSubmitPost(submitButton);
+            var formData = form.serialize()
+			$.ajax({
+				url: form.attr("action"),
+				method: form.attr("method"),
+				data: formData,
+				success: function(json){
+					CustomFormSubmitResponse(submitButton);
+					var image = json["data"]
+                    $('.images').remove();
+                    $('.result').append(
+                        "<img class='images' height='200' width='200' src="+image+">"
+                        );
 
 				},
 				error: function(json){
-					CustomFormSubmitResponse(submit_button);
-					var result = "Error"
-					var message = json["message"]
-					ShowAlert(result, json.responseJSON["message"], result.toLowerCase(), json.responseJSON["redirect"]);
+					CustomFormSubmitResponse(submitButton);
 					console.log(json.status + ": " + json.responseText);
 				}
 			})
@@ -55,6 +78,7 @@ var DemoFunctions = function(){
 	return {
 		init:function(){
 			basicForm();
+            basicImageForm();
 		},
 	}
 	

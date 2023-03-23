@@ -9,7 +9,7 @@ from django.conf import settings
 # --------------------------------------------------------------
 # App imports
 # --------------------------------------------------------------
-from core.forms import AnimalForm
+from core.forms import InputForm
 
 # --------------------------------------------------------------
 # Project imports
@@ -33,23 +33,23 @@ class HomeView(generic.FormView):
     :template:`index.html`
     """
     template_name = "index.html"
-    form_class = AnimalForm
+    form_class = InputForm
     success_url = "/"
 
-    def generate_prompt(self, breed):
-        return f'Suggest three {breed} animal names'
+    def generate_prompt(self, input):
+        return f'Suggest three {input} animal names'
 
     @method_decorator(ajax_required)
     def post(self, request,*args, **kwargs):
         data = {'result': 'Error', 'message': "Something went wrong, please try again", "redirect": False, "data":None}
-        form = AnimalForm(request.POST)
+        form = InputForm(request.POST)
         if form.is_valid():
 
-            breed = form.cleaned_data.get("breed")
+            input = form.cleaned_data.get("input")
 
             response = openai.Completion.create(
                 model="text-davinci-003",
-                prompt=breed,
+                prompt=self.generate_prompt(input),
                 temperature=0.6,
             )
             data.update({
